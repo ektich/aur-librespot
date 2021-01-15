@@ -1,30 +1,22 @@
 # Maintainer: Christoph Gysin <christoph.gysin@gmail.com>
 
-pkgname=librespot-git
-_pkgname=librespot
-pkgver=523.3ce2211
+pkgname=librespot
+pkgver=0.1.3
 pkgrel=1
-epoch=1
 pkgdesc="Open Source Spotify client library"
 arch=('i686' 'x86_64' 'armv6h' 'armv7h' 'aarch64')
 url="https://github.com/librespot-org/librespot"
 license=('MIT')
 depends=('libvorbis' 'alsa-lib')
-makedepends=('git' 'rust')
+makedepends=('rust')
 provides=('librespot')
 conflicts=('librespot')
-source=('git+https://github.com/librespot-org/librespot')
+source=("https://github.com/librespot-org/librespot/archive/v$pkgver.tar.gz")
 sha256sums=('SKIP')
-
-pkgver()
-{
-    cd "$_pkgname"
-    echo $(git rev-list --count HEAD).$(git rev-parse --short HEAD)
-}
 
 build()
 {
-    cd "$_pkgname"
+    cd "$pkgname-$pkgver"
     cargo build \
         --no-default-features \
         --features alsa-backend \
@@ -33,10 +25,10 @@ build()
 
 package()
 {
-    install -D -m 755 "$_pkgname"/target/release/librespot \
+    install -D -m 755 "$pkgname-$pkgver"/target/release/librespot \
         "$pkgdir"/usr/bin/librespot
-    install -D -m 644 "$_pkgname"/contrib/librespot.service \
+    install -D -m 644 "$pkgname-$pkgver"/contrib/librespot.service \
         "$pkgdir"/usr/lib/systemd/system/librespot.service
-    install -D -m 644 "$_pkgname"/LICENSE \
+    install -D -m 644 "$pkgname-$pkgver"/LICENSE \
         "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

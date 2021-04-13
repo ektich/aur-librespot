@@ -2,7 +2,7 @@
 
 pkgname=librespot
 pkgver=0.1.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Open Source Spotify client library"
 arch=('i686' 'x86_64' 'armv6h' 'armv7h' 'aarch64')
 url="https://github.com/librespot-org/librespot"
@@ -20,6 +20,7 @@ build()
     cargo build \
         --no-default-features \
         --features alsa-backend \
+	--features pulseaudio-backend \
         --release
 }
 
